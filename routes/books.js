@@ -9,11 +9,11 @@ function auth (req, res, next) {
 }
 
 module.exports = router => {
-  router.get('/books', index); // public
-  router.get('/books/new', auth, _new); // authenticated
-  router.post('/books', auth, create);  // authenticated
-  router.post('/books/update', auth, update);  // authenticated
-  router.post('/books/delete', auth, _delete);  // authenticated
-  router.get('/books/:id/edit', auth, edit);  // authenticated
-  router.get('/books/:id', show); // public
+  router.get('/books', index);  
+  router.get('/books/new', auth, _new);  
+  router.post('/books', auth, create);   
+  router.post('/books/update', auth, update);   
+  router.post('/books/delete', auth, _delete);  
+  router.get('/books/:id/edit', auth, edit);   
+  router.get('/books/:id', show); 
 };

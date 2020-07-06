@@ -22,6 +22,6 @@ exports.create = async (req, res) => {
     console.log('Errors');
     req.flash('danger', error.message);
     req.session.formData = req.body;
-    res.redirect(`${viewPath}/new`);
+    res.redirect(`${viewPath}/register`);
   }
 };
