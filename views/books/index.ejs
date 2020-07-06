@@ -1,0 +1,52 @@
+<!--
+  Step 1: This is your descretion how you would like to display data,
+  but you must list all the documents in your resource collection.
+-->
+
+<%- include ('../partials/header') %>
+
+<div class="container my-5">
+  <header>
+    <h1>Uploaded</h1>
+  </header>
+  <hr>
+  <div class="content">
+    <% for (let book of books) { %>
+      <div class="card my-3">
+        <div class="card-header clearfix">
+          <div class=" float-left">
+            <h5 class="card-title"><%= book.title %></h5>
+            <% if (typeof book.user !== 'undefined') { %>
+              <small>~ <%= book.user.fullname %></small>
+            <% } %>
+          </div>
+          <div class="float-right">
+            <small><%= book.updatedAt %></small>
+          </div>
+        </div>
+        <div class="card-body">          
+          <p class="card-text">
+            <%= book.synopsis %>
+          </p>
+          <a href="/books/<%= book.id %>">more...</a>
+        </div>
+        <% if (authorized && (typeof book.user === 'undefined' || book.user.email === email)) { %>
+          <div class="card-footer">
+            <a href="/books/<%= book.id %>/edit">
+              <i class="fa fa-edit"></i>
+            </a>
+            &nbsp;/&nbsp;
+            <form class="form-inline" action="/books/delete" method="post" onsubmit="return confirm('Are you sure you want to delete the published book?');">
+              <input type="hidden" value="<%= book.id %>" name="id">
+              <button class="delete" type="submit">
+                <i class="fa fa-trash"></i>
+              </button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include ('../partials/footer') %>

@@ -1,0 +1,33 @@
+<!--
+  Step 1: The form must be sharable between the new and edit views.
+-->
+
+<form action="<%= (typeof actionPath === 'undefined') ? '/books' : actionPath %>", method="POST">
+  <% if (typeof actionPath !== 'undefined') { %>
+    <input type="hidden" name="id" value="<%= formData.id %>">
+  <% } %>
+
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" name="title" class="form-control" value="<%= formData.title %>">
+  </div>
+
+  <div class="form-group">
+    <label for="content">Book Content</label>
+    <textarea name="content" class="form-control summernote">
+      <%= formData.content %>
+    </textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="status">Status</label>
+    <select name="status" class="form-control">
+      <option value="DRAFT">Draft</option>
+      <option <%= formData.status && formData.status === 'PUBLISHED' ? 'selected' : null %> value="PUBLISHED">Published</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-dark">Submit</button>
+  </div>
+</form>

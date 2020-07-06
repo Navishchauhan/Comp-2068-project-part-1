@@ -1,0 +1,25 @@
+<!--
+  Step 1: This is your descretion how you would like to display data,
+  but you must list display only one document based on the passed ID.
+-->
+
+<%- include ('../partials/header') %>
+
+<div class="continer my-5">
+	<header>
+		<h1> <%- book.title %> 
+			<a href="/books/<%= book.id %>/edit">
+				<i class="fa fa-edit"></i>
+				</a>
+		</h1>
+		<br>
+		<small><%= (book.updatedAt.toLocaleString("en-CA")) %></small>
+	</header>
+	<p><strong>By: <%= book.user.fullname %>/</strong></p>
+	<hr>
+	<div class="content">
+	<%- book.content %>
+	</div> 
+</div>
+
+<%- include ('../partials/footer') %>
