@@ -9,28 +9,21 @@ exports.index = async (req, res) => {
       .populate('user')
       .sort({updatedAt: 'desc'});
 
-    res.render(`${viewPath}/index`, {
-      pageTitle: 'Uploaded',
-      books: books
-    });
+    res.status(200).json(books);
   } catch (error) {
-    req.flash('danger', `There was an error displaying the uploaded books: ${error}`);
-    res.redirect('/');
+    res.status(400).json({message: 'there was an error fetching the books', error});
   }
 };
+
 
 exports.show = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
       .populate('user');
-    console.log(book);
-    res.render(`${viewPath}/show`, {
-      pageTitle: book.title,
-      book: book
-    });
+    
+    res.status(200).json(book);
   } catch (error) {
-    req.flash('danger', `There was an error displaying this book: ${error}`);
-    res.redirect('/');
+    res.status(400).json({message: "There was an error fetching the book"});
   }
 };
 
@@ -41,20 +34,19 @@ exports.new = (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  console.log(req.body);
   try {
     const { user: email } = req.session.passport;
     const user = await User.findOne({email: email});
-    console.log('User', user);
+    
     const book = await Book.create({user: user._id, ...req.body});
 
-    req.flash('success', 'Book created successfully');
-    res.redirect(`/books/${book.id}`);
+    res.status(200).json(book);
   } catch (error) {
-    req.flash('danger', `There was an error creating this book: ${error}`);
-    req.session.formData = req.body;
-    res.redirect('/books/new');
+    res.status(400).json({message: "there was an error creating the book", error});
   }
 };
+
 
 exports.edit = async (req, res) => {
   try {
@@ -91,12 +83,11 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    console.log(req.body);
+
     await Book.deleteOne({_id: req.body.id});
-    req.flash('success', 'The book was deleted successfully');
-    res.redirect(`/books`);
+    res.status(200).json({message: "Deleted!!"});
   } catch (error) {
-    req.flash('danger', `There was an error deleting this book: ${error}`);
-    res.redirect(`/books`);
+
+    res.status(400).json({message: "There was an error deleting the book"});
   }
 };
